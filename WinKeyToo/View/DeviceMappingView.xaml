@@ -1,0 +1,113 @@
+﻿<UserControl x:Class="WinKeyToo.View.DeviceMappingView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:attachedBehavior="clr-namespace:WinKeyToo.AttachedCommandBehavior"
+    xmlns:coll="clr-namespace:System.Collections;assembly=mscorlib"
+    HorizontalAlignment="Stretch"
+    VerticalAlignment="Stretch"  
+  >
+    <Grid Margin="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- DEVICE TYPE -->
+        <Label 
+      Grid.Row="0" Grid.Column="0" 
+      Content="Devices:" 
+      HorizontalAlignment="Right"
+      Target="{Binding ElementName=deviceMappingTypeCmb}" 
+      />
+        <ComboBox 
+      x:Name="deviceMappingTypeCmb"
+      Grid.Row="0" Grid.Column="2" 
+      ItemsSource="{Binding Path=Devices}"
+      Validation.ErrorTemplate="{x:Null}"
+            Loaded="DeviceMappingTypeCmbLoaded"
+        attachedBehavior:CommandBehavior.Event="SelectionChanged"  
+        attachedBehavior:CommandBehavior.Command="{Binding ChangeSelectionCommand}"
+        attachedBehavior:CommandBehavior.CommandParameter="{Binding ElementName=deviceMappingTypeCmb, Path=SelectedItem}"
+            />
+        <ContentPresenter 
+      Grid.Row="1" Grid.Column="2"
+      Content="{Binding ElementName=deviceMappingTypeCmb, Path=(Validation.Errors).CurrentItem}"
+      />
+
+        <TextBlock Margin="3" Grid.Row="3" Grid.Column="3" Text="{Binding DisplayName}" VerticalAlignment="Center" HorizontalAlignment="Left" />
+        <StackPanel Grid.Row="3" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Top">
+            <Button Margin="3" x:Name="Reset" Content="Reset" Command="{Binding Path=ResetInputCommand}" />
+            <TextBlock Margin="3" Text="Instructions:" VerticalAlignment="Center" HorizontalAlignment="Left" />
+            <Border BorderBrush="Black" BorderThickness="3" Margin="3" VerticalAlignment="Top" HorizontalAlignment="Left">
+                <TextBlock Width="200" Height="50" x:Name="Mapping" Background="Beige"
+                       TextWrapping="Wrap" Margin="3" TextAlignment="Center"
+                   Text="{Binding Instructions}">
+            <attachedBehavior:CommandBehaviorCollection.Behaviors>
+                <attachedBehavior:BehaviorBinding Event="MouseEnter" Command="{Binding EnterReadInputCommand}" CommandParameter="{Binding}"/>
+                <attachedBehavior:BehaviorBinding Event="MouseLeave" Command="{Binding ExitReadInputCommand}" CommandParameter="{Binding}"/>
+            </attachedBehavior:CommandBehaviorCollection.Behaviors>
+                </TextBlock>
+            </Border>
+        </StackPanel>
+        <Label 
+      Grid.Row="4" Grid.Column="0" 
+      Content="Actions:" 
+      HorizontalAlignment="Right"
+      Target="{Binding ElementName=deviceMappingActionCmb}" 
+      />
+        <ComboBox 
+      x:Name="deviceMappingActionCmb"
+      Grid.Row="4" Grid.Column="2"
+            VerticalAlignment="Top"
+      ItemsSource="{Binding Path=AvailableActions, Mode=OneTime}"
+      Validation.ErrorTemplate="{x:Null}"
+            Loaded="DeviceMappingActionCmdLoaded"
+        attachedBehavior:CommandBehavior.Event="SelectionChanged"  
+        attachedBehavior:CommandBehavior.Command="{Binding ChangeActionCommand}"
+        attachedBehavior:CommandBehavior.CommandParameter="{Binding ElementName=deviceMappingActionCmb, Path=SelectedItem}"
+            >
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding DisplayName}"/>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+        <!--<TextBlock Margin="3" Grid.Row="4" Grid.Column="3" Text="Configuration:" VerticalAlignment="Center" HorizontalAlignment="Left" />-->
+        <Border BorderBrush="LightGray" BorderThickness="3" Margin="3" Grid.Row="4" Grid.Column="3" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <ContentPresenter Margin="3"  VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                   Content="{Binding ElementName=deviceMappingActionCmb, Path=SelectedItem.ConfigurationControl}"/>
+        </Border>
+
+        <ContentPresenter HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+      Grid.Row="5" Grid.Column="2"
+      Content="{Binding ElementName=deviceMappingActionCmb, Path=(Validation.Errors).CurrentItem}"
+      />
+        <Label 
+      Grid.Row="6" Grid.Column="0" 
+      Content="Enabled:" 
+      HorizontalAlignment="Right"
+      Target="{Binding ElementName=EnabledCheckBox}" 
+      />
+        <CheckBox VerticalAlignment="Center" x:Name="EnabledCheckBox" Grid.Row="6" Grid.Column="2" IsChecked="{Binding IsEnabled}"/>
+        <!-- SAVE BUTTON -->
+        <Button 
+      Grid.Row="8" Grid.Column="2"
+      Command="{Binding Path=SaveCommand}"
+      Content="_Save"
+      HorizontalAlignment="Right"
+      Margin="4,2" 
+      MinWidth="60" 
+      />
+    </Grid>
+</UserControl>

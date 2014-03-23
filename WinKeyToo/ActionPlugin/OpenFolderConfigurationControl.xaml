@@ -1,0 +1,12 @@
+﻿<UserControl x:Class="WinKeyToo.ActionPlugin.OpenFolderConfigurationControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    >
+    <Grid>
+        <StackPanel Orientation="Vertical">
+            <TextBlock Margin="3" Text="Folder"/>
+            <TextBox MinWidth="100" Margin="3" Text="{Binding Path=FolderPath, Mode=TwoWay}" MaxWidth="200"/>
+            <Button Margin="3" Command="{Binding Path=BrowseFolderCommand}" Content="Select Folder"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

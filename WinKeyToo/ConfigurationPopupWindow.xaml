@@ -1,0 +1,16 @@
+﻿<Window x:Class="WinKeyToo.ConfigurationPopupWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="ConfigurationPopupWindow" Height="300" Width="300">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <ContentPresenter x:Name="ConfigurationPresenter" />
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button IsDefault="True" x:Name="OkButton" Click="OkButtonClick" Content="OK" Margin="4"/>
+            <Button IsCancel="True" x:Name="CanceButton" Content="Cancel" Margin="4"/>
+        </StackPanel>
+    </Grid>
+</Window>
